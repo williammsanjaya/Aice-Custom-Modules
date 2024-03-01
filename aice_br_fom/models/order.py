@@ -70,13 +70,14 @@ class FomOrder(models.Model):
         res = super(FomOrder, self).create(vals)
         return res
     
-    # For canceling any invoice made from the order
+    # For canceling any invoice made from the order [UNUSED]
     invoice_ids = fields.Many2many("account.move", string='Invoices', readonly=True, copy=False, search="_search_invoice_ids")
 
     # Going to the next item in the sequence
     def jump_state(self):
         self.state = 'sent'
 
+    # ------------ Cancel button
     def CancelState(self):
         cancel_warning = self._show_cancel_wizard()
         if cancel_warning:
@@ -101,6 +102,7 @@ class FomOrder(models.Model):
             if order.invoice_ids.filtered(lambda inv: inv.state == 'draft') and not order._context.get('disable_cancel_warning'):
                 return True
         return False
+    # ------------ Cancel button end
 
     def toDraft(self):
         self.state = 'draft'
@@ -128,7 +130,7 @@ class FomOrder(models.Model):
     # Gets the costumer array from db res.partner
     customer_id = fields.Many2one(
         'res.partner', string='Customer',
-        required=True, change_default=True, index=True, tracking=1)
+        required=True, change_default=True, index=True, tracking=True)
     note = fields.Text(string='Description')
     
     # Array of status names.
@@ -141,11 +143,21 @@ class FomOrder(models.Model):
         ], string='Status', default='draft', tracking=True)
    
     # Order line page
-    # it will pull a list of the items you're adding to the list.
-    order_line = fields.One2many('fom.order.line', 'order_id', string='Order Lines', states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True)
+    order_line = fields.One2many('fom.order.line', 'order_id', string='Order Lines', states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True, tracking=True)
+    
+    # Monetary information.
     t_amt = fields.Float(string='Total Amount', compute='_compute_total_amount', store=True)
     untaxed_amount = fields.Float(string='Untaxed Amount', compute='_compute_untaxed_amount', store=True)
     amount_taxed = fields.Float(string='Amount Taxed', compute='_compute_amount_taxed', store=True)
+
+    # Company
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
+
+    # Currency id
+    pricelist_id = fields.Many2one(
+        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+        required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
+    currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
 
     # Archive / Unarchive
     active = fields.Boolean(string='Active', default=True, tracking=True)
@@ -167,40 +179,45 @@ class FomOrder(models.Model):
         for ordem in self:
             ordem.t_amt = ordem.untaxed_amount + ordem.amount_taxed
 
-    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
-
     # Responsable to move the order to the inventory and creating a purchase order on the purchase module.
     def DoneState(self):
         # Responsable for changing the state of the order, once the function returns true.
         self.state = 'freezer_order'
 
         # Creating the purchase order parammeters.
-        purchase_order = self.env['purchase.order'].create({
-            'partner_id': self.customer_id.id,
-            'date_order': self.dateorder,
-            'picking_type_id': 1,
-            'company_id': self.company_id.id,
-            'origin': self.name,
-            'order_line': [(0, 0, {
-                'name': line.product_id.name,
-                'product_id': line.product_id.id,
-                'product_qty': line.product_uom_qty,
-                'product_uom': line.product_id.uom_id.id,
-                'price_unit': line.price_unit,
-                'taxes_id': [(6, 0, line.tax_id.ids)] if line.tax_id else False,
-            }) for line in self.order_line],
-        })
+        #purchase_order = self.env['purchase.order'].create({
+        #    'partner_id': self.customer_id.id,
+        #    'date_order': self.dateorder,
+        #    'picking_type_id': 1,
+        #    'company_id': self.company_id.id,
+        #    'origin': self.name,
+        #    'order_line': [(0, 0, {
+        #        'name': line.product_id.name,
+        #        'product_id': line.product_id.id,
+        #        'product_qty': line.product_uom_qty,
+        #        'product_uom': line.product_id.uom_id.id,
+        #        'price_unit': line.price_unit,
+        #        'taxes_id': [(6, 0, line.tax_id.ids)] if line.tax_id else False,
+        #    }) for line in self.order_line],
+        #})
 
-        # Returns true if purchase order was successfully created.
+        # Returns true.
         return True
+    
+    # Only show the orders from the company that saved the order.
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        args += [('company_id', '=', self.env.company.id)]
+        return super(FomOrder, self).search(args, offset, limit, order, count=count)
     
 # Class responsable for The item list itself.
 class FomOrderLine(models.Model):
     _name = 'fom.order.line'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Freezer Order Line'
     _check_company_auto = True
 
-    # 
+    # -- UNUSED
     qtytype = fields.Selection([
         ('dg', 'DG'),
         ('gtg', 'GTG'),
@@ -209,20 +226,22 @@ class FomOrderLine(models.Model):
         ('mt', 'MT'),
     ], string="Market Type", required=True, default='dg', tracking=True)
 
-    # Product field
-    product_id = fields.Many2one('product.product', string='Product', domain=[('purchase_ok', '=', True)], change_default=True)
-    # Quantity field
-    product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', required=True, default=1.0)
-    # Price field
-    price_unit = fields.Float('Unit Price', required=True, digits='Product Price', default=0.0)
-    # the id of the order
+    # Fields
+    product_id = fields.Many2one('product.product', string='Product', domain=[('purchase_ok', '=', True)], change_default=True, tracking=True)
+    product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', required=True, default=1.0, tracking=True)
+    price_unit = fields.Float('Unit Price', required=True, digits='Product Price', default=0.0, tracking=True)
     order_id = fields.Many2one('fom.order', string='Order Reference', required=True, ondelete='cascade', index=True, copy=False)
-    # Subtotal
-    subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store = True)
-    
-    tax_id = fields.Many2one('account.tax', string='Tax')
-    tax = fields.Float(string='Tax', compute='_compute_tax', store=True)
+    subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store = True, tracking=True)
+    tax_id = fields.Many2one('account.tax', string='Tax', tracking=True)
+    tax = fields.Float(string='Tax', compute='_compute_tax', store=True, tracking=True)
+    # Currency id
+    pricelist_id = fields.Many2one(
+        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+        required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
+    currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
 
+    # Calculating the total
     @api.depends('tax_id', 'subtotal')
     def _compute_tax(self):
         for linha_pedido in self:
@@ -233,3 +252,24 @@ class FomOrderLine(models.Model):
     def _compute_subtotal(self):
         for line in self:
             line.subtotal =  line.product_uom_qty * line.price_unit 
+
+    # Writing tracking on change
+    def write(self, vals):
+        if set(vals):
+            self._track_changes(self.order_id)
+        return super().write(vals)
+
+    # Custom tracking 
+    def _track_changes(self, field_to_track):
+        if self.message_ids:
+            message_id = field_to_track.message_post(body=f'{self._description}: ').id
+            trackings = self.env['mail.tracking.value'].sudo().search([
+                ('mail_message_id', '=', self.message_ids[0].id)
+            ])
+            for tracking in trackings:
+                tracking.copy({'mail_message_id': message_id})
+    
+    # Automatically getting field information o tree from
+    @api.onchange('product_id')
+    def set_code(self):
+        self.price_unit = self.product_id.lst_price

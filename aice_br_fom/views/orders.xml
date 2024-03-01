@@ -155,6 +155,12 @@
                             <field name="customer_id"/>
                             <field name="note"/>
                             <field name="active" invisible="1"/>
+                            <label for="pricelist_id" groups="product.group_product_pricelist"/>
+                            <div groups="product.group_product_pricelist" class="o_row">
+                                <field name="pricelist_id" options="{'no_open':True,'no_create': True}"/>
+                                
+                            </div>
+                            <field name="currency_id" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -176,6 +182,8 @@
                                         <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                     </control>
                                         <field name="product_id" />
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
                                         <field name="product_uom_qty" />
                                         <field name="price_unit" />
                                         <field name="tax_id" style="text-align: end;"/>
@@ -183,13 +191,17 @@
                                         <!-- Fields coming from the class. -->
                                 </tree>
                             </field>
-                                <footer>
-                                    <div style="width: 100%; margin-top: 30px; display: flex; flex-direction: column; align-items: end; text-align: end;">
-                                        <h5 style="width: 250px">Total Untaxed: R$<field name="untaxed_amount" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/></h5>
-                                        <h5 style="width: 250px">Tax: R$<field name="amount_taxed" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/></h5>
-                                        <h3 style="border-top: 1px solid #000; padding-top: 5px; width: 250px">Total Amount: R$<field name="t_amt" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/></h3>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="untaxed_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_taxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="t_amt"/>
                                     </div>
-                                </footer>
+                                    <field name="t_amt" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
@@ -437,7 +449,7 @@
             </field>
         </record>
     
-    <!-- Link to the Agreements ========================================================================== -->
+    <!-- Link to the Agreements ========================================================================== 
         <record id="fom_action_open_url" model="ir.actions.act_url">
             <field name="name">Open URL Action</field>
             <field name="url">http://127.0.0.1:3000/</field>
@@ -448,5 +460,5 @@
             name="Agreement System"
             parent="fom_menu_root"
             sequence="5"
-            action='fom_action_open_url'/>
+            action='fom_action_open_url'/>-->
 </odoo>

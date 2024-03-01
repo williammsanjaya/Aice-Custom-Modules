@@ -41,7 +41,3 @@ class FomResourceType(models.Model):
             value = '[' + rec.name + '] ' + rec.resource_type_name
             result.append((rec.id, value))
         return result
-    
-
-
-#just comment line here.
