@@ -5,8 +5,8 @@
         <field name="name">Freezer Order Report</field>
         <field name="model">fom.order</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">fom.order_report_template</field>
-        <field name="report_file">fom.order_report_template</field>
+        <field name="report_name">aice_id_fom.order_report_template</field>
+        <field name="report_file">aice_id_fom.order_report_template</field>
         <field name="print_report_name">'Report - {} {}'.format(object.name, object.dateorder.strftime("%Y-%m-%d"))</field>
         <field name="binding_model_id" ref="model_fom_order"/>
         <field name="binding_type">report</field>
@@ -17,8 +17,8 @@
         <field name="name">Freezer Order Excel Report</field>
         <field name="model">fom.order</field>
         <field name="report_type">xlsx</field>
-        <field name="report_name">fom.order_report_xlsx</field>
-        <field name="report_file">fom.order_report_xlsx</field>
+        <field name="report_name">aice_id_fom.order_report_xlsx</field>
+        <field name="report_file">aice_id_fom.order_report_xlsx</field>
         <field name="print_report_name">'Report - {} {}'.format(object.name, object.dateorder.strftime("%Y-%m-%d"))</field>
         <field name="binding_model_id" ref="model_fom_order"/>
         <field name="binding_type">report</field>

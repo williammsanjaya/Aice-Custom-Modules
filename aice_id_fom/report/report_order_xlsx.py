@@ -4,7 +4,7 @@ from pytz import timezone, UTC
 from datetime import datetime, timedelta
 
 class ReportOrdersXlsx(models.AbstractModel):
-    _name = 'report.fom.order_report_xlsx'
+    _name = 'report.aice_id_fom.order_report_xlsx'
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, orders):
@@ -73,7 +73,7 @@ class ReportOrdersXlsx(models.AbstractModel):
             row_num2 = 2
             for line in order:
                 sheet.write(row_num2, 7, line.name, alignment)
-                sheet.write(row_num2, 8, line.ordertype, alignment)
+                sheet.write(row_num2, 8, line.ordertype.name if line.ordertype else '',  alignment) # Extracting name of ordertype
 
                 db_timezone = timezone('America/Sao_Paulo')
                 adjusted_date = line.dateorder.replace(tzinfo=UTC).astimezone(db_timezone)
@@ -86,7 +86,7 @@ class ReportOrdersXlsx(models.AbstractModel):
                                 
                 
                 sheet.write(row_num2, 9, formatted_result, alignment)
-                sheet.write(row_num2, 10, line.markettype, alignment)
+                sheet.write(row_num2, 10, line.markettype.name if line.markettype else '', alignment)
                 sheet.write(row_num2, 11, line.customer_id.name if line.customer_id else '', alignment)
 
                 # Name Frrom the state.
@@ -95,9 +95,9 @@ class ReportOrdersXlsx(models.AbstractModel):
 
                 # Width of the column based on the value
                 sheet.set_column(7, 7, len(str(line.name)) + 8)
-                sheet.set_column(8, 8, len(str(line.ordertype)) + 10)
+                sheet.set_column(8, 8, len(str(line.ordertype.name)) + 10)
                 sheet.set_column(9, 9, len(str(formatted_result)) + 6)
-                sheet.set_column(10, 10, len(str(line.markettype)) + 10)
+                sheet.set_column(10, 10, len(str(line.markettype.name)) + 10)
                 sheet.set_column(11, 11, len(str(line.customer_id.name)) + 6)
                 sheet.set_column(12, 12, len(str(line.state)) + 10)
 

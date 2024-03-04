@@ -93,7 +93,6 @@ class FomOrder(models.Model):
     #], string = 'Order Type',required=True, default='cg', tracking=True)
 
     ordertype = fields.Many2one('fom.ordertype',string="Order Type", required=True, tracking=True, ondelete ='restrict')
-    #ordertype = fields.Many2one('fom.resource',string="Order Type", required=True, tracking=True)
 
     
     # Gets the actual datte time from the server.
