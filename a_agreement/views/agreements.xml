@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="action_agreement" model="ir.actions.act_window">
+            <field name="name">Agreements List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">a_agreement.list</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{  }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Here i'll be listed the agreements you have stored.
+                </p>
+            </field>
+        </record>
+
+
+    <!-- Top menu item =================================================================================== -->
+        <menuitem id="agreement_menu_root"
+            name="Agreements"
+            sequence="10"/>
+
+        <menuitem id="agreement_order_menu"
+            name="List of Agreements"
+            parent="agreement_menu_root"
+            sequence="1"
+            action='action_agreement'/>
+
+    <!-- Agreements MODEL VIEW ============================================================================ -->
+        <record id="view_agreement_tree" model="ir.ui.view">
+                <field name="name">a_agreement.list.tree</field>
+                <field name="model">a_agreement.list</field>
+                <field name="arch" type="xml">
+                    <tree multi_edit="1">
+                        <field name="name" />
+                        <field name="user_id" widget="many2one_avatar_user" optional="show" />
+                        <field name="doc_name" />
+                        <field name="doc_reference" />
+                        <field name="customer_id" />
+                        <field name="date_creation"/>
+                        <field name="note" />
+                    </tree>
+                </field>
+        </record>
+
+
+
+        <record id="view_agreement_search" model="ir.ui.view">
+                <field name="name">a_agreement.list.search</field>
+                <field name="model">a_agreement.list</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="name" />
+                        <field name="user_id" />
+                        <field name="doc_name" />
+                        <field name="doc_reference" />
+                        <field name="customer_id" />
+                        <field name="date_creation"/>
+                        <field name="note" />
+                        <!--<field name="name"/>
+                        <field name="ordertype"/>
+                        <field name="dateorder"/>
+                        <field name="markettype"/>
+                        <field name="customer_id"/>
+                        <field name="note"/>
+                        <field name="state"/>
+                        <group expand="0" string="Group By">
+                            <filter string="Date Order" name="dateorder" context="{'group_by': 'dateorder'}"/>
+                        </group> Fields for searching here -->
+                    </search>
+                </field>
+        </record>
+
+
+        <record id="view_agreement_form" model="ir.ui.view">
+        <field name="name">a_agreement.list.form</field>
+        <field name="model">a_agreement.list</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="toSent" string="Approve Document" id="toSent" type="object" class="btn-primary" states="draft" />
+                    <button name="download_pdf" string="Download" id="download_pdf" type="object" class="btn-primary" states="sent" />
+                    <button name="toDraft" string="Back To Draft" id="toDraft" type="object" states="cancel,sent" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent" readonly="1" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" string="Product Reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="doc_name" />
+                            <field name="doc_reference" />
+                            <field name="pdf_file" states="draft"/>
+                        </group>
+                        <group>
+                            <field name="customer_id" />
+                            <field name="user_id" />
+                            <field name="date_creation" />
+                            <field name="note" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+        </record>
+</odoo>
