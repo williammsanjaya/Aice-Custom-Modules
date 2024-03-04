@@ -35,7 +35,7 @@ class FomOrder(models.Model):
     def jump_state(self):
         self.state = 'sent'
 
-    def CancelState(self):
+    def action_cancel(self):
         cancel_warning = self._show_cancel_wizard()
         if cancel_warning:
             return {
@@ -60,9 +60,15 @@ class FomOrder(models.Model):
                 return True
         return False
 
-    def toDraft(self):
+    def action_draft(self):
         self.state = 'draft'
     
+    def action_quotation_send(self):
+        self.state = 'freezer_order'
+    def action_confirm(self):
+        self.state = 'freezer_order'
+
+
     # Name of the operation.
     name = fields.Char(string='Order ID', required=True, copy=False, readonly=True, default=lambda self: _('New Order'))
 
