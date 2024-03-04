@@ -125,6 +125,17 @@ class FomOrder(models.Model):
     untaxed_amount = fields.Float(string='Untaxed Amount', compute='_compute_untaxed_amount', store=True)
     amount_taxed = fields.Float(string='Amount Taxed', compute='_compute_amount_taxed', store=True)
 
+
+    # Company
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
+
+    # Currency id
+    #pricelist_id = fields.Many2one(
+    #    'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+    #    required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
+    #currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+
+
     # Archive / Unarchive
     active = fields.Boolean(string='Active', default=True, tracking=True)
 
@@ -172,6 +183,12 @@ class FomOrder(models.Model):
         # Returns true if purchase order was successfully created.
         return True
     
+    # Only show the orders from the company that saved the order.
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        args += [('company_id', '=', self.env.company.id)]
+        return super(FomOrder, self).search(args, offset, limit, order, count=count)
+    
 # Class responsable for The item list itself.
 class FomOrderLine(models.Model):
     _name = 'fom.order.line'
@@ -206,6 +223,14 @@ class FomOrderLine(models.Model):
     tax_id = fields.Many2one('account.tax', string='Tax')
     tax = fields.Float(string='Tax', compute='_compute_tax', store=True)
 
+    # Currency id
+    #pricelist_id = fields.Many2one(
+    #    'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+    #    required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
+    #currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+    #company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
+
+
     @api.depends('tax_id', 'subtotal')
     def _compute_tax(self):
         for linha_pedido in self:
@@ -217,7 +242,26 @@ class FomOrderLine(models.Model):
         for line in self:
             line.subtotal =  line.product_uom_qty * line.price_unit
 
+    # Writing tracking on change
+    def write(self, vals):
+        if set(vals):
+            self._track_changes(self.order_id)
+        return super().write(vals)
 
+    # Custom tracking 
+    def _track_changes(self, field_to_track):
+        if self.message_ids:
+            message_id = field_to_track.message_post(body=f'{self._description}: ').id
+            trackings = self.env['mail.tracking.value'].sudo().search([
+                ('mail_message_id', '=', self.message_ids[0].id)
+            ])
+            for tracking in trackings:
+                tracking.copy({'mail_message_id': message_id})
+    
+    # Automatically getting field information o tree from
+    @api.onchange('product_id')
+    def set_code(self):
+        self.price_unit = self.product_id.lst_price
 
 # Class for products
 class FomProducts(models.Model):

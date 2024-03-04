@@ -81,7 +81,7 @@
             <field name="name">Fom Order Type Sequence</field>
             <field name="code">fom.ordertype</field>
             <field name="prefix">OT</field>
-            <field name="padding">2</field>
+            <field name="padding">5</field>
             <field name="company_id" eval="False"/> <!-- Set to False to make it global -->
 
         </record>
@@ -95,7 +95,7 @@
             <field name="name">Fom Quantity Type Sequence</field>
             <field name="code">fom.qtytype</field>
             <field name="prefix">QT</field>
-            <field name="padding">2</field>
+            <field name="padding">5</field>
             <field name="company_id" eval="False"/> <!-- Set to False to make it global -->
         </record>
     </data>
@@ -132,6 +132,20 @@
 
     </data>
 
+    <data>
+
+        <!-- Sequences for fom.salesdepartment -->
+        <record id="seq_fom_takeback_Info" model="ir.sequence">
+            <field name="name">Fom Sales Department Sequence</field>
+            <field name="code">fom.salesdepartment</field>
+            <field name="prefix">SD</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/> <!-- Set to False to make it global -->
+
+        </record>
+
+
+    </data>
 
     
 </odoo>
