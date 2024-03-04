@@ -28,6 +28,7 @@
         'views/resourceView.xml',
         'views/storeType.xml',
         'views/terminalMgmt.xml',
+        'views/salesDepartmentView.xml',
         'views/takebackReason.xml',
         'data/data.xml',
         'report/report.xml',

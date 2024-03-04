@@ -1,6 +1,59 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 
+#Sales Department Model
+class FomSalesDepartment(models.Model):
+    _name='fom.salesdepartment'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = "Sales Department Management Interface"
+
+    # Name field
+    name = fields.Char(string='Sales Department Code', required=True, copy=False, readonly=True, default=lambda self: _('New Sales Department'))
+
+    # Generate unique identifier.
+    @api.model
+    def create(self, vals):
+        if not vals.get('name') or vals['name'] == _('New Sales Department'):
+            sequence = self.env['ir.sequence'].next_by_code('fom.salesdepartment') or _('New Sales Department')
+            vals['name'] = sequence
+        res = super(FomSalesDepartment, self).create(vals)
+        return res
+    
+    #defining a sequence number for the name.
+    #@api.model
+    #def create(self, vals):
+    #    if vals.get('name', _('New Order Type')) == _('New Order Type'):
+    #        vals['name'] = self.env['ir.sequence'].next_by_code('fom.ordertype') or _('New Order Type')
+    #    res = super(FomOrderType, self).create(vals)
+    #    return res
+
+
+
+    # Code Field
+    sales_department_name = fields.Char(string='Sales Department Name', required=True, translate=True)
+
+    # Parent Category field
+    sales_department_parent_category = fields.Many2one('fom.salesdepartment', string="Parent Category", required=False)
+
+    # Status field
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+
+    # Note
+    remark = fields.Text(string="Remark")
+
+    # Created time field
+    created_time = fields.Datetime(string='Created Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now)
+
+    # Parent Category Custom Name.
+    def name_get(self):
+        result = []
+        for rec in self:
+            value = '[' + rec.name + '] ' + rec.sales_department_name
+            result.append((rec.id, value))
+        return result
+
+
+
 #Order Type Model
 class FomOrderType(models.Model):
     _name='fom.ordertype'

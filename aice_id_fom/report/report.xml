@@ -12,7 +12,8 @@
         <field name="binding_type">report</field>
     </record>
 
-     <record id="report_fom_orders_xlsx" model="ir.actions.report">
+    <!---->
+    <record id="report_fom_orders_xlsx" model="ir.actions.report">
         <field name="name">Freezer Order Excel Report</field>
         <field name="model">fom.order</field>
         <field name="report_type">xlsx</field>
