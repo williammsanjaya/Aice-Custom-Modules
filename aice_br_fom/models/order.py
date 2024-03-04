@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 
-# Adding the custom filter for the stock
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
-
-    prod_type = fields.Selection(
-        related='product_id.product_tmpl_id.type',
-        string='Tipo de Produto',
-        readonly=True
-    )
-
 # Class for products
 class FomProducts(models.Model):
     _name = "fom.products"
@@ -154,10 +144,8 @@ class FomOrder(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
 
     # Currency id
-    pricelist_id = fields.Many2one(
-        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
-        required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
-    currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True,
+        default=lambda self: self.env.company.currency_id.id)
 
     # Archive / Unarchive
     active = fields.Boolean(string='Active', default=True, tracking=True)
@@ -207,7 +195,8 @@ class FomOrder(models.Model):
     # Only show the orders from the company that saved the order.
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        args += [('company_id', '=', self.env.company.id)]
+        company_ids = self.env.context.get('allowed_company_ids', [self.env.company.id])
+        args += [('company_id', 'in', company_ids)]
         return super(FomOrder, self).search(args, offset, limit, order, count=count)
     
 # Class responsable for The item list itself.
@@ -234,11 +223,9 @@ class FomOrderLine(models.Model):
     subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store = True, tracking=True)
     tax_id = fields.Many2one('account.tax', string='Tax', tracking=True)
     tax = fields.Float(string='Tax', compute='_compute_tax', store=True, tracking=True)
+    
     # Currency id
-    pricelist_id = fields.Many2one(
-        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
-        required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
-    currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True, default=lambda self: self.env.company.currency_id.id)
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
 
     # Calculating the total
@@ -255,20 +242,27 @@ class FomOrderLine(models.Model):
 
     # Writing tracking on change
     def write(self, vals):
-        if set(vals):
-            self._track_changes(self.order_id)
-        return super().write(vals)
+        track_self = super().write(vals)
+        if vals:
+            for line in self:
+                changes = []
+                for field, value in vals.items():
+                    if field in line._fields:
+                        if field == 'product_id':
+                            product_name = self.env['product.product'].browse(value).name
+                            changes.append(f'{field}: {product_name}')
+                        else:
+                            changes.append(f'{field}: {value}')
+                if changes:
+                    line._track_changes(changes)
+        return track_self
 
     # Custom tracking 
-    def _track_changes(self, field_to_track):
-        if self.message_ids:
-            message_id = field_to_track.message_post(body=f'{self._description}: ').id
-            trackings = self.env['mail.tracking.value'].sudo().search([
-                ('mail_message_id', '=', self.message_ids[0].id)
-            ])
-            for tracking in trackings:
-                tracking.copy({'mail_message_id': message_id})
-    
+    def _track_changes(self, changes):
+        for record in self:
+            if record.order_id:
+                record.order_id.message_post(body=f'{record._description}: {", ".join(changes)}')
+        
     # Automatically getting field information o tree from
     @api.onchange('product_id')
     def set_code(self):

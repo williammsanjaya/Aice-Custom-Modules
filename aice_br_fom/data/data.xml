@@ -8,6 +8,7 @@
             <field name="code">fom.order</field>
             <field name="prefix">FOM</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -21,6 +22,7 @@
             <field name="code">fom.products</field>
             <field name="prefix">FRZ</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -34,6 +36,7 @@
             <field name="code">fom.resourcetype</field>
             <field name="prefix">RT</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -47,6 +50,7 @@
             <field name="code">fom.resource</field>
             <field name="prefix">RI</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -60,6 +64,7 @@
             <field name="code">fom.storetype</field>
             <field name="prefix">ST</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -73,6 +78,7 @@
             <field name="code">fom.terminal</field>
             <field name="prefix">TI</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -86,6 +92,7 @@
             <field name="code">fom.takeback</field>
             <field name="prefix">TB</field>
             <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
         </record>
 
 

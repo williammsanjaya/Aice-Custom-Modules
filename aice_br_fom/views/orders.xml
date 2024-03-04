@@ -155,12 +155,7 @@
                             <field name="customer_id"/>
                             <field name="note"/>
                             <field name="active" invisible="1"/>
-                            <label for="pricelist_id" groups="product.group_product_pricelist"/>
-                            <div groups="product.group_product_pricelist" class="o_row">
-                                <field name="pricelist_id" options="{'no_open':True,'no_create': True}"/>
-                                
-                            </div>
-                            <field name="currency_id" invisible="1"/>
+                            <field name="currency_id" groups="base.group_multi_currency" force_save="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -182,7 +177,6 @@
                                         <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                     </control>
                                         <field name="product_id" />
-                                        <field name="currency_id" invisible="1"/>
                                         <field name="company_id" invisible="1"/>
                                         <field name="product_uom_qty" />
                                         <field name="price_unit" />
