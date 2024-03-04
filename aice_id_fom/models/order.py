@@ -159,29 +159,29 @@ class FomOrder(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
 
     # Responsable to move the order to the inventory and creating a purchase order on the purchase module.
-    def DoneState(self):
-        # Responsable for changing the state of the order, once the function returns true.
-        self.state = 'freezer_order'
+    #def DoneState(self):
+    #    # Responsable for changing the state of the order, once the function returns true.
+    #    self.state = 'freezer_order'
 
         # Creating the purchase order parammeters.
-        purchase_order = self.env['purchase.order'].create({
-            'partner_id': self.customer_id.id,
-            'date_order': self.dateorder,
-            'picking_type_id': 1,
-            'company_id': self.company_id.id,
-            'origin': self.name,
-            'order_line': [(0, 0, {
-                'name': line.product_id.name,
-                'product_id': line.product_id.id,
-                'product_qty': line.product_uom_qty,
-                'product_uom': line.product_id.uom_id.id,
-                'price_unit': line.price_unit,
-                'taxes_id': [(6, 0, line.tax_id.ids)] if line.tax_id else False,
-            }) for line in self.order_line],
-        })
+    #    purchase_order = self.env['purchase.order'].create({
+    #        'partner_id': self.customer_id.id,
+    #        'date_order': self.dateorder,
+    #        'picking_type_id': 1,
+    #        'company_id': self.company_id.id,
+    #        'origin': self.name,
+    #        'order_line': [(0, 0, {
+    #            'name': line.product_id.name,
+    #            'product_id': line.product_id.id,
+    #            'product_qty': line.product_uom_qty,
+    #            'product_uom': line.product_id.uom_id.id,
+    #            'price_unit': line.price_unit,
+    #            'taxes_id': [(6, 0, line.tax_id.ids)] if line.tax_id else False,
+    #        }) for line in self.order_line],
+    #    })
 
-        # Returns true if purchase order was successfully created.
-        return True
+    #   # Returns true if purchase order was successfully created.
+    #    return True
     
     # Only show the orders from the company that saved the order.
     @api.model
