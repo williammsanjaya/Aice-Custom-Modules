@@ -31,8 +31,8 @@
         'views/salesDepartmentView.xml',
         'views/takebackReason.xml',
         'data/data.xml',
-        'report/report.xml',
-        'report/fom_report_template.xml'
+        'report/fom_report_template.xml',
+        'report/report.xml'
     ],
     'qweb': ['static/src/xml/dropdown_filter.xml'],
     'js': ['static/src/js/dropdown_filter.js'],
