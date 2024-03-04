@@ -31,6 +31,9 @@ class FomOrder(models.Model):
     # For canceling any invoice made from the order
     invoice_ids = fields.Many2many("account.move", string='Invoices', readonly=True, copy=False, search="_search_invoice_ids")
 
+    currency_id = fields.Many2one('res.currency','Currency', required=True, default=lambda self: self.env.company.currency_id.id)
+
+
     # Going to the next item in the sequence
     def jump_state(self):
         self.state = 'sent'
@@ -67,6 +70,9 @@ class FomOrder(models.Model):
         self.state = 'freezer_order'
     def action_confirm(self):
         self.state = 'freezer_order'
+
+    
+    
 
 
     # Name of the operation.
@@ -129,7 +135,7 @@ class FomOrder(models.Model):
     order_line = fields.One2many('fom.order.line', 'order_id', string='Order Lines', states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True)
     t_amt = fields.Float(string='Total Amount', compute='_compute_total_amount', store=True)
     untaxed_amount = fields.Float(string='Untaxed Amount', compute='_compute_untaxed_amount', store=True)
-    amount_taxed = fields.Float(string='Amount Taxed', compute='_compute_amount_taxed', store=True)
+    amount_taxed = fields.Float(string='Amount Taxed', compute='_compute_amount_taxed' , store=True)
 
 
     # Company
@@ -139,7 +145,6 @@ class FomOrder(models.Model):
     #pricelist_id = fields.Many2one(
     #    'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
     #    required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
-    #currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
 
 
     # Archive / Unarchive
@@ -224,7 +229,7 @@ class FomOrderLine(models.Model):
     # the id of the order
     order_id = fields.Many2one('fom.order', string='Order Reference', required=True, ondelete='cascade', index=True, copy=False)
     # Subtotal
-    subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store = True)
+    subtotal = fields.Monetary(string='Subtotal', compute='_compute_subtotal', store = True)
     
     tax_id = fields.Many2one('account.tax', string='Tax')
     tax = fields.Float(string='Tax', compute='_compute_tax', store=True)
@@ -234,7 +239,8 @@ class FomOrderLine(models.Model):
     #    'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
     #    required=True, readonly=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", tracking=1)
     #currency_id = fields.Many2one(related='pricelist_id.currency_id', depends=["pricelist_id"], store=True)
-    #company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company, tracking=True)
+    currency_id = fields.Many2one('res.currency','Currency', required=True, default=lambda self: self.env.company.currency_id.id)
 
 
     @api.depends('tax_id', 'subtotal')
