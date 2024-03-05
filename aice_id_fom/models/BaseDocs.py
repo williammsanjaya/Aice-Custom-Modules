@@ -31,7 +31,7 @@ class FomAiceArea(models.Model):
 
 
     # Code Field
-    aice_area_name = fields.Char(string='Aice Area Name', required=True, translate=True)
+    aice_area_name = fields.Char(string='Aice Area Name', required=True)
 
     # Parent Category field
     aice_area_parent_category = fields.Many2one('fom.aicearea', string="Parent Category", required=False)
@@ -354,28 +354,28 @@ class FomResource(models.Model):
     created_time = fields.Datetime(string='Created Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now)
     last_modified_date = fields.Datetime(string='Modified Date', readonly=True)
 
-# Store Type model
-class FomStoreType(models.Model):
-    _name='fom.storetype'
+# Market Type model
+class FomMarketType(models.Model):
+    _name='fom.markettype'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _description = "Store Type Interface"
+    _description = "Market Type Interface"
 
     # Name field
-    name = fields.Char(string='Store Type Code', required=True, copy=False, readonly=True, default=lambda self: _('New Store Type'))
+    name = fields.Char(string='Market Type Code', required=True, copy=False, readonly=True, default=lambda self: _('New Market Type'))
 
     # Generate unique identifier.
     @api.model
     def create(self, vals):
-        if not vals.get('name') or vals['name'] == _('New Store Type'):
-            sequence = self.env['ir.sequence'].next_by_code('fom.storetype') or _('New Store Type')
+        if not vals.get('name') or vals['name'] == _('New Market Type'):
+            sequence = self.env['ir.sequence'].next_by_code('fom.markettype') or _('New Market Type')
             vals['name'] = sequence
-        res = super(FomStoreType, self).create(vals)
+        res = super(FomMarketType, self).create(vals)
         if 'last_modified_date' not in vals:
             res.update_last_modified_date()
         return res
 
     def write(self, vals):
-        res = super(FomStoreType, self).write(vals)
+        res = super(FomMarketType, self).write(vals)
         if 'last_modified_date' not in vals:
             self.update_last_modified_date()
         return res
@@ -384,10 +384,10 @@ class FomStoreType(models.Model):
         self.last_modified_date = fields.Datetime.now()
 
     # Name Field
-    store_type_name = fields.Char(string='Store Type Name', required=True, translate = True)
+    market_type_name = fields.Char(string='Market Type Name', required=True, translate = True)
 
     # Parent Category field
-    store_type_parent_category = fields.Many2one('fom.storetype', string="Parent Category", required=False)
+    market_type_parent_category = fields.Many2one('fom.markettype', string="Parent Category", required=False)
 
     # Status field
     active = fields.Boolean(string='Active', default=True, tracking=True)
@@ -403,7 +403,7 @@ class FomStoreType(models.Model):
     def name_get(self):
         result = []
         for rec in self:
-            value = '[' + rec.name + '] ' + rec.store_type_name
+            value = '[' + rec.name + '] ' + rec.market_type_name
             result.append((rec.id, value))
         return result
 

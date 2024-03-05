@@ -2,39 +2,39 @@
 <odoo>
 
         <!-- Search View -->
-        <record id="view_fom_store_type_search" model="ir.ui.view">
-            <field name="name">fom.storetype.search</field>
-            <field name="model">fom.storetype</field>
+        <record id="view_fom_market_type_search" model="ir.ui.view">
+            <field name="name">fom.markettype.search</field>
+            <field name="model">fom.markettype</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
-                    <field name="store_type_name"/>
-                    <field name="store_type_parent_category"/>
+                    <field name="market_type_name"/>
+                    <field name="market_type_parent_category"/>
                     <field name="last_modified_date"/>
                     <field name="created_time"/>
                     <field name="remark"/>
                     <group expand="0" string="Group By">
-                        <filter string="Parent Categories" name="store_type" context="{'group_by': 'store_type_parent_category'}"/>
+                        <filter string="Parent Categories" name="market_type" context="{'group_by': 'market_type_parent_category'}"/>
                     </group>
                     <group expand="0" string="Filters">
                         <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                         <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
                     </group>
                     <searchpanel>
-                        <field name="store_type_parent_category" string="Categories" enable_counters="1" icon="fa fa-clipboard" />
+                        <field name="market_type_parent_category" string="Categories" enable_counters="1" icon="fa fa-clipboard" />
                     </searchpanel>
                 </search>
             </field>
         </record>
 
-        <record id="view_fom_store_type_tree" model="ir.ui.view">
-                <field name="name">fom.storetype.tree</field>
-                <field name="model">fom.storetype</field>
+        <record id="view_fom_market_type_tree" model="ir.ui.view">
+                <field name="name">fom.markettype.tree</field>
+                <field name="model">fom.markettype</field>
                 <field name="arch" type="xml">
                     <tree multi_edit="1">
                         <field name="name"/>
-                        <field name="store_type_name"/>
-                        <field name="store_type_parent_category"/>
+                        <field name="market_type_name"/>
+                        <field name="market_type_parent_category"/>
                         <field name="last_modified_date"/>
                         <field name="created_time"/>
                         <field name="remark"/>
@@ -42,9 +42,9 @@
                 </field>
         </record>
 
-         <record id="view_fom_store_type_form" model="ir.ui.view">
-        <field name="name">fom.storetype.form</field>
-        <field name="model">fom.storetype</field>
+         <record id="view_fom_market_type_form" model="ir.ui.view">
+        <field name="name">fom.markettype.form</field>
+        <field name="model">fom.markettype</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -55,8 +55,8 @@
                     </div>
                     <group>
                         <group>
-                            <field name="store_type_name" />
-                            <field name="store_type_parent_category" />
+                            <field name="market_type_name" />
+                            <field name="market_type_parent_category" />
                             <field name="last_modified_date" />
                         </group>
                         <group>

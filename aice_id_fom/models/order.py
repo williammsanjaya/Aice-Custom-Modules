@@ -196,7 +196,8 @@ class FomOrder(models.Model):
     # Only show the orders from the company that saved the order.
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        args += [('company_id', '=', self.env.company.id)]
+        company_ids = self.env.context.get('allowed_company_ids', [self.env.company.id])
+        args += [('company_id', 'in', company_ids)]
         return super(FomOrder, self).search(args, offset, limit, order, count=count)
     
 # Class responsable for The item list itself.
