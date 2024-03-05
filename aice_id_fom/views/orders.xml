@@ -288,24 +288,24 @@
 
     <!-- ================================================================================================= -->
         <!-- Action -->
-        <record id="action_fom_store_menu" model="ir.actions.act_window">
-                <field name="name">Store Type</field>
+        <record id="action_fom_market_type_menu" model="ir.actions.act_window">
+                <field name="name">Market Type</field>
                 <field name="type">ir.actions.act_window</field>
-                <field name="res_model">fom.storetype</field>
+                <field name="res_model">fom.markettype</field>
                 <field name="view_mode">tree,form</field>
-                <field name="context">{ 'search_default_store_type': 1 }</field>
+                <field name="context">{ 'search_default_market_type': 1 }</field>
                 <field name="help" type="html">
                     <p class="o_view_nocontent_smiling_face">
-                        Here, you can add a new Store type!
+                        Here, you can add a new market type!
                     </p>
                 </field>
         </record>
 
         <menuitem id="fom_base_docs_menu_3"
-            name="Store Type"
+            name="Market Type"
             parent="fom_base_docs"
             sequence="3"
-            action='action_fom_store_menu'/>
+            action='action_fom_market_type_menu'/>
 
     <!-- ================================================================================================= -->
         <record id="action_fom_terminal_menu" model="ir.actions.act_window">
@@ -407,6 +407,28 @@
         parent="fom_base_docs"
         sequence="8"
         action='action_fom_sales_department_menu'/>
+
+            
+
+    <!-- ================================================================================================= -->
+    <record id="action_fom_aice_area_menu" model="ir.actions.act_window">
+        <field name="name">Aice Area Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fom.aicearea</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{ }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Here you can add a new aice area!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="fom_base_docs_menu_9"
+        name="Aice Area Management"
+        parent="fom_base_docs"
+        sequence="9"
+        action='action_fom_aice_area_menu'/>
 
             
 
