@@ -1,0 +1,10 @@
+"name","order_type_name","order_type_parent_category","active","remark"
+1,"采购 Common Purchase",,True,,
+2,"一城一策 Bonus YCYC",,True,,
+3,"返款 Cashback/Buyback",,True,,
+4,"奖励柜 Bonus Freezer",,True,,
+5,"整合柜 Intergrated Freezer",,True,,
+6,"免费柜 Unit Free",,True,,
+7,"公投奖励柜 Bonus GTG",,True,,
+8,"报废柜 Scrapped Freezer",,True,,
+9,"免投柜 Support Free",,True,,

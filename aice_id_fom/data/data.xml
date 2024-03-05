@@ -146,6 +146,19 @@
 
 
     </data>
+    <data>
 
+        <!-- Sequences for fom.salesdepartment -->
+        <record id="seq_fom_aicearea_Info" model="ir.sequence">
+            <field name="name">Fom Aice Area Sequence</field>
+            <field name="code">fom.aicearea</field>
+            <field name="prefix">AA</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/> <!-- Set to False to make it global -->
+
+        </record>
+
+
+    </data>
     
 </odoo>

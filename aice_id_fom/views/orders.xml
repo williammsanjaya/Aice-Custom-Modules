@@ -410,6 +410,28 @@
 
             
 
+    <!-- ================================================================================================= -->
+    <record id="action_fom_aice_area_menu" model="ir.actions.act_window">
+        <field name="name">Aice Area Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fom.aicearea</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{ }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Here you can add a new aice area!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="fom_base_docs_menu_9"
+        name="Aice Area Management"
+        parent="fom_base_docs"
+        sequence="9"
+        action='action_fom_aice_area_menu'/>
+
+            
+
     <!-- New Filter ====================================================================================== -->
         <record model="ir.ui.view" id="product_template_search_engine_inherit">
             <field name="name">stock.quant.search.inherit</field>

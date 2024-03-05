@@ -1,0 +1,160 @@
+name,aice_area_name,sort_order
+1,棉兰西部 Medan Barat,1
+2,丹戎槟榔 Tanjung Pinang,2
+3,棉兰子公司 Medan Zigongsi,8
+4,棉兰 Medan,9
+5,棉兰中部 Medan Pusat,4
+6,棉兰南部 Medan Selatan,5
+7,棉兰东部 Medan Timur,3
+8,卡班贾赫 Kabanjahe,6
+9,先达 Siantar,7
+10,巴东 Padang,13
+11,民礼 Binjai,15
+12,亚奇南部 Aceh Selatan,22
+13,瓜拉新邦 Kuala Simpang,20
+14,司马威 Lhokseumawe,21
+15,亚奇西部 Aceh Barat,19
+16,亚奇东部 Aceh Timur,18
+17,亚奇北部 Aceh Utara,17
+18,尼亚新市场 Nias,12
+19,北甘巴鲁 Pekanbaru,10
+20,杜迈 Dumai,11
+21,巴东石林潘 Padang Sidempuan,23
+22,兰都 Rantau Prapat,14
+23,巨港 Palembang,28
+24,巨港北部 Palembang Utara,29
+25,楠榜 Lampung,24
+26,巴淡岛 Batam,31
+27,淡美拉汉 Tembilahan,26
+28,邦加 Bangka Belitung,27
+29,占碑 Jambi,25
+30,明古鲁 Bengkulu,30
+31,卢布林高 Lubuk Linggau,32
+32,梭罗 Solo,67
+33,葛布干 Grobogan,66
+34,克拉登 Klaten,72
+35,沃诺吉里 Wonogiri,73
+36,玛格朗 Magelang,63
+37,三宝垄 Semarang,61
+38,肯德尔 Kendal,60
+39,直葛 Tegal,58
+40,北加浪岸 Pekalongan,59
+41,古突士 Kudus,64
+42,巴蒂 Pati,65
+43,普禾嘉多 Purwokerto,76
+44,日惹 Yogyakarta,71
+45,沃诺索博 Wonosobo,75
+46,普勒沃佐 Purworejo,74
+47,芝拉扎 Cilacap,77
+48,雅加达东部 Jakarta Timur,38
+49,雅加达西部 Jakarta Barat,39
+50,勿加泗 Bekasi,45
+51,雅加达中部 Jakarta Pusat,41
+52,雅加达北部 Jakarta Utara,42
+53,雅加达南部 Jakarta Selatan,40
+54,茂物 Bogor,43
+55,德波 Depok,44
+56,万隆 Bandung,46
+57,双木丹 Sumedang,56
+58,尖米士 Ciamis,49
+59,达西梅拉亚 Tasikmalaya,47
+60,加鲁特 Garut,48
+61,井里汶 Cirebon,50
+62,苏加武眉 Sukabumi,53
+63,展玉 Cianjur,54
+64,卡拉旺 Karawang,51
+65,苏棒 Subang,55
+66,马贾伦卡 Majalengka,57
+67,普哇加达 Purwakarta,52
+68,唐格朗南部 Tangerang Selatan,33
+69,唐格朗北部 Tangerang Utara,34
+70,唐格朗 Tangerang Kota,35
+71,兰加士勿洞 Rangkasbitung,36
+72,西冷 Serang,37
+73,泗水东部 Surabaya Timur,
+74,泗水西部 Surabaya Barat,
+75,茉莉芬 Madiun,67
+76,波诺罗戈 Ponorogo,
+77,巴米加三 Pamekasan,81
+78,邦卡兰 Bangkalan,82
+79,图班 Tuban,83
+80,拉蒙岸 Lamongan,84
+81,谏议里 Kediri,68
+82,岸朱 Nganjuk,
+83,宗班 Jombang,69
+84,新埠头 Bojonegoro,86
+85,莫佐克托 Mojokerto,87
+86,锦石 Gresik,79
+87,诗都阿左 Sidoarjo,80
+88,岩望 Pasuruan,89
+89,庞越 Probolinggo,90
+90,文多禾俊 Bondowoso,91
+91,外南梦 Banyuwangi,92
+92,任抹 Jember,93
+93,图隆阿贡 Tulungagung,70
+94,勿里达 Blitar,85
+95,玛琅 Malang,88
+96,卢马姜 Lumajang,94
+97,美娜多 Manado,108
+98,瓦坦波尼 Watampone,111
+99,帕洛波 Palopo,109
+100,波利瓦里 Polewali,112
+101,帕里吉 Parigi,102
+102,望加锡 Makassar,113
+103,戈瓦县 Gowa,114
+104,布卢昆巴 Bulukumba,115
+105,巴务巴务 Baubau,110
+106,坤甸 Pontianak,95
+107,打拉根 Tarakan,98
+108,三马林达 Samarinda,99
+109,巴里巴板 Balikpapan,100
+110,绑卡兰翁 Pangkalan Bun,96
+111,帕朗卡拉亚 Palangkaraya,97
+112,马晨 Banjarmasin,101
+113,哥伦打洛 Gorontalo,106
+114,巴厘巴厘 Parepare,103
+115,帕卢 Palu,104
+116,肯达里 Kendari,105
+117,卢武克 Luwuk,107
+118,巴厘岛 Bali,116
+119,新加拉惹 Singaraja,117
+120,库塔 Kuta,
+121,登巴萨 Denpasar,
+122,纳嘎拉 Negara,
+123,塔巴南 Tabanan,
+124,乌布 Ubud,
+125,邦利 Bangli,
+126,克隆孔 Klungkung,
+127,卡朗阿森 Karangasem,
+128,努沙佩尼达 Nusa Penida,
+129,松巴岛 Sumba,120
+130,鲁腾 Ruteng,121
+131,龙目岛西北部 Lombok Barat Utara,118
+132,龙目岛中东部 Lombok Tengah Timur,119
+133,比马 Bima,122
+134,古邦 Kupang,123
+135,英德 Ende,124
+136,查亚普拉 Jayapura,125
+137,提米卡 Timika,126
+138,索龙 Sorong,127
+139,马诺夸里 Manokwari,128
+140,安纹 Ambon,129
+141,特尔特纳 Ternate,130
+142,雅加达 Jakarta,
+143,唐格朗 Tangerang,
+144, KOSA,
+145,泗水 Surabaya,78
+146,托利托利 Tolitoli,
+149,沙拉笛加 Salatiga,62
+150,芹苴 Cần Thơ,147
+151,同奈 Đồng Nai,148
+152,实格里 Sigli,16
+153,茂物西部 Bogor Barat,43
+154, Sumbawa,0
+155,东帝汶 Timor Leste,0
+156,松巴岛 Sumba,0
+157,松巴岛 Sumba,120
+158,松巴岛 Sumba,120
+159, ruteng,0
+160,实格里 Sigli,0
+161,雅加达封闭工厂 Jakarta Utara CT,0

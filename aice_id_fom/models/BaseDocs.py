@@ -1,6 +1,113 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 
+#Aice Area Model
+class FomAiceArea(models.Model):
+    _name='fom.aicearea'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = "Aice Area Management Interface"
+
+    # Name field
+    name = fields.Char(string='Aice Area Code', required=True, copy=False, readonly=True, default=lambda self: _('New Aice Area'))
+
+    # Generate unique identifier.
+    @api.model
+    def create(self, vals):
+        if not vals.get('name') or vals['name'] == _('New Aice Area'):
+            sequence = self.env['ir.sequence'].next_by_code('fom.aicearea') or _('New Aice Area')
+            vals['name'] = sequence
+        res = super(FomAiceArea, self).create(vals)
+        return res
+    
+    #defining a sequence number for the name.
+    #@api.model
+    #def create(self, vals):
+    #    if vals.get('name', _('New Order Type')) == _('New Order Type'):
+    #        vals['name'] = self.env['ir.sequence'].next_by_code('fom.ordertype') or _('New Order Type')
+    #    res = super(FomOrderType, self).create(vals)
+    #    return res
+
+    sort_order=fields.Integer(string='Sort Order')
+
+
+    # Code Field
+    aice_area_name = fields.Char(string='Aice Area Name', required=True, translate=True)
+
+    # Parent Category field
+    aice_area_parent_category = fields.Many2one('fom.aicearea', string="Parent Category", required=False)
+
+    # Status field
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+
+    # Note
+    remark = fields.Text(string="Remark")
+
+    # Created time field
+    created_time = fields.Datetime(string='Created Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now)
+
+    # Parent Category Custom Name.
+    def name_get(self):
+        result = []
+        for rec in self:
+            value = '[' + rec.name + '] ' + rec.aice_area_name
+            result.append((rec.id, value))
+        return result
+
+
+
+#Order Type Model
+class FomOrderType(models.Model):
+    _name='fom.ordertype'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = "Order Type Management Interface"
+
+    # Name field
+    name = fields.Char(string='Order Type Code', required=True, copy=False, readonly=True, default=lambda self: _('New Order Type'))
+
+    # Generate unique identifier.
+    @api.model
+    def create(self, vals):
+        if not vals.get('name') or vals['name'] == _('New Order Type'):
+            sequence = self.env['ir.sequence'].next_by_code('fom.ordertype') or _('New Order Type')
+            vals['name'] = sequence
+        res = super(FomOrderType, self).create(vals)
+        return res
+    
+    #defining a sequence number for the name.
+    #@api.model
+    #def create(self, vals):
+    #    if vals.get('name', _('New Order Type')) == _('New Order Type'):
+    #        vals['name'] = self.env['ir.sequence'].next_by_code('fom.ordertype') or _('New Order Type')
+    #    res = super(FomOrderType, self).create(vals)
+    #    return res
+
+
+
+    # Code Field
+    order_type_name = fields.Char(string='Order Type Name', required=True, translate=True)
+
+    # Parent Category field
+    order_type_parent_category = fields.Many2one('fom.ordertype', string="Parent Category", required=False)
+
+    # Status field
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+
+    # Note
+    remark = fields.Text(string="Remark")
+
+    # Created time field
+    created_time = fields.Datetime(string='Created Date', required=True, readonly=True, index=True, copy=False, default=fields.Datetime.now)
+
+    # Parent Category Custom Name.
+    def name_get(self):
+        result = []
+        for rec in self:
+            value = '[' + rec.name + '] ' + rec.order_type_name
+            result.append((rec.id, value))
+        return result
+
+
+
 #Sales Department Model
 class FomSalesDepartment(models.Model):
     _name='fom.salesdepartment'

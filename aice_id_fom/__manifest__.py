@@ -22,6 +22,7 @@
         #'views/views.xml',
         'views/orders.xml',
         'views/products.xml',
+        'views/aiceAreaView.xml',
         'views/resourceTypeView.xml',
         'views/qtyTypeView.xml',
         'views/orderTypeView.xml',
@@ -31,6 +32,9 @@
         'views/salesDepartmentView.xml',
         'views/takebackReason.xml',
         'data/data.xml',
+        'data/fom.aicearea.csv',
+        'data/fom.ordertype.csv',
+        'data/fom.qtytype.csv',
         'report/fom_report_template.xml',
         'report/report.xml'
     ],

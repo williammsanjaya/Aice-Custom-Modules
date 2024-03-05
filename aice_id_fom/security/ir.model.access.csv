@@ -10,3 +10,4 @@ fom_order_takeback,access.fom.takeback,model_fom_takeback,,1,1,1,1
 fom_ordertype_management,access.fom.ordertype,model_fom_ordertype,,1,1,1,1
 fom_qtytype_management,access.fom.qtytype,model_fom_qtytype,,1,1,1,1
 fom_salesdepartment_management,access.fom.salesdepartment,model_fom_salesdepartment,,1,1,1,1
+fom_aicearea_management,access.fom.aicearea_management,model_fom_aicearea,,1,1,1,1

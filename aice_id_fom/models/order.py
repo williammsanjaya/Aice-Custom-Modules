@@ -254,21 +254,33 @@ class FomOrderLine(models.Model):
             line.subtotal =  line.product_uom_qty * line.price_unit
 
     # Writing tracking on change
-    def write(self, vals):
-        if set(vals):
-            self._track_changes(self.order_id)
-        return super().write(vals)
-
+    #def write(self, vals):
+     #   if set(vals):
+      #      self._track_changes(self.order_id)
+      #  return super().write(vals)
+    
     # Custom tracking 
+    #def _track_changes(self, field_to_track):
+    #    if self.message_ids:
+    #        message_id = field_to_track.message_post(body=f'{self._description}: ').id
+    #        trackings = self.env['mail.tracking.value'].sudo().search([
+    #            ('mail_message_id', '=', self.message_ids[0].id)
+    #        ])
+    #        for tracking in trackings:
+    #            tracking.copy({'mail_message_id': message_id})
+
+
+    def write(self, vals):
+        super().write(vals)
+        if set(vals) & set(self._get_tracked_fields()):
+            self._track_changes(self.order_id)
+
     def _track_changes(self, field_to_track):
         if self.message_ids:
-            message_id = field_to_track.message_post(body=f'{self._description}: ').id
-            trackings = self.env['mail.tracking.value'].sudo().search([
-                ('mail_message_id', '=', self.message_ids[0].id)
-            ])
+            message_id = field_to_track.message_post(body=f'<strong>{ self._description }:</strong> { self.display_name }').id
+            trackings = self.env['mail.tracking.value'].sudo().search([('mail_message_id', '=', self.message_ids[0].id)])
             for tracking in trackings:
                 tracking.copy({'mail_message_id': message_id})
-    
     # Automatically getting field information o tree from
     @api.onchange('product_id')
     def set_code(self):
