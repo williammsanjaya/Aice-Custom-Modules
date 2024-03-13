@@ -14,7 +14,7 @@
     'maintainer': '',
     'license': 'LGPL-3',
     'support': '',
-    'depends': ['mail','product', 'account', 'report_xlsx', 'web', 'sale', 'base', 'product'],
+    'depends': ['mail', 'account', 'report_xlsx', 'web', 'sale', 'base', 'product'],
     'demo': [],
     'data': [
         'security/ir.model.access.csv',

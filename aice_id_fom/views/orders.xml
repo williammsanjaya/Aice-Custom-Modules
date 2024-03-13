@@ -433,7 +433,7 @@
             
 
     <!-- New Filter ====================================================================================== -->
-        <record model="ir.ui.view" id="product_template_search_engine_inherit">
+<!--        <record model="ir.ui.view" id="product_template_search_engine_inherit">
             <field name="name">stock.quant.search.inherit</field>
             <field name="model">stock.quant</field>
             <field name="inherit_id" ref="stock.quant_search_view"/>
@@ -443,6 +443,6 @@
                 </search>
             </field>
         </record>
-    
+    -->
 
 </odoo>

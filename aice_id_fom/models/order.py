@@ -3,14 +3,14 @@ from odoo import api, fields, models, _
 
 
 # Adding the custom filter for the stock
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
+#class StockQuant(models.Model):
+#    _inherit = 'stock.quant'
 
-    prod_type = fields.Selection(
-        related='product_id.product_tmpl_id.type',
-        string='Product Type',
-        readonly=True
-    )
+#    prod_type = fields.Selection(
+#        related='product_id.product_tmpl_id.type',
+#        string='Product Type',
+#        readonly=True
+#    )
 
 # Class for the actual component
 class FomOrder(models.Model):
@@ -106,7 +106,7 @@ class FomOrder(models.Model):
     #    ('sm', '特殊渠道 Special Market'),
     #], string="Market Type", required=True, default='gt', tracking=True)
 
-    markettype = fields.Many2one('fom.storetype',string="Market Type", required=True, tracking=True, ondelete ='restrict')
+    markettype = fields.Many2one('fom.markettype',string="Market Type", required=True, tracking=True, ondelete ='restrict')
     
 
 
